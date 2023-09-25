@@ -5,6 +5,11 @@ import './App.css';
 function App() {
   const [form, SetForm] = useState({})
   const [taskList, setTaskList] = useState([])
+  const [ttlHrs, setTtlHrs] = useState(0)
+
+  const totalHrs = taskList.reduce((acc, item) => acc + +item.hr, 0)
+
+  const hoursWeek = 168
 
   const handleOnChange = (e) => {
     // console.log(e);
@@ -24,7 +29,9 @@ function App() {
 
   const handleOnSubmit = (e) => {
     e.preventDefault()
-
+    if (totalHrs + +form.hr > hoursWeek){
+      return alert ("Sorry boss You can't add any more task")
+    }
     const obj = {
       ...form,
       type: "entry",
@@ -46,7 +53,7 @@ function App() {
     }
     return id
   }
-  console.log(taskList)
+  // console.log(taskList)
 
   const handleOnDelete = (id) => {
     if (window.confirm("Are You Sure Want To Delete? ")){
@@ -73,6 +80,15 @@ function App() {
   }
 const entry = taskList.filter(item => item.type=== "entry")
 const bad = taskList.filter(item => item.type=== "bad")
+
+const total = () => {
+  const ttl = taskList.reduce((acc, item) => acc + +item.hr, 0)
+  // console.log(acc, item)
+   return setTtlHrs(ttl)
+  // console.log(setTtlHrs(ttl));
+}
+
+
 return (
   <div className="wrapper">
 
@@ -119,7 +135,7 @@ return (
                     <td>{i + 1}</td>
                     <td>{item.task}</td>
                     <td>{item.hr}hr</td>
-                    <td class="text-end">
+                    <td className="text-end">
                       <button
                         onClick={() => handleOnDelete(item.id)}
                         className="btn btn-danger"><i className="fa-solid fa-trash"></i>
@@ -165,13 +181,15 @@ return (
               }
             </tbody>
           </table>
-          <div className="alert alert-info" >You could have saved = <span id="badHr">0</span>hr</div>
+          <div className="alert alert-info" >You could have saved = <span id="badHr">{bad.reduce((acc, item) =>acc + +item.hr, 0)}</span>hr</div>
         </div>
       </div>
 
       {/* <!-- Total Time allocated --> */}
-      <div className="alert alert-info">
-        Total hrs per week allocated = <span id="totalHr">0</span>hr
+      <div className="alert alert-info" >
+        Total hrs per week allocated = <span id="totalHr" >{
+          totalHrs
+        }</span>hr
       </div>
     </div>
   </div>
