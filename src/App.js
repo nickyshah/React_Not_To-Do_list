@@ -5,7 +5,7 @@ import './App.css';
 function App() {
   const [form, SetForm] = useState({})
   const [taskList, setTaskList] = useState([])
-  const [ttlHrs, setTtlHrs] = useState(0)
+ 
 
   const totalHrs = taskList.reduce((acc, item) => acc + +item.hr, 0)
 
@@ -81,12 +81,7 @@ function App() {
 const entry = taskList.filter(item => item.type=== "entry")
 const bad = taskList.filter(item => item.type=== "bad")
 
-const total = () => {
-  const ttl = taskList.reduce((acc, item) => acc + +item.hr, 0)
-  // console.log(acc, item)
-   return setTtlHrs(ttl)
-  // console.log(setTtlHrs(ttl));
-}
+
 
 
 return (
@@ -139,8 +134,7 @@ return (
                       <button
                         onClick={() => handleOnDelete(item.id)}
                         className="btn btn-danger"><i className="fa-solid fa-trash"></i>
-                      </button>
-                      <button onClick={() => switchTask(item.id, "bad")} className="btn btn-success"><i className="fa-solid fa-arrow-right"></i>
+                      </button> <button onClick={() => switchTask(item.id, "bad")} className="btn btn-success"><i className="fa-solid fa-arrow-right"></i>
                       </button>
 
                     </td>
@@ -167,8 +161,7 @@ return (
                     <td>{item.hr}hr</td>
                     <td className="text-end g-2" >
                     <button onClick={() => switchTask(item.id, "entry")} className="btn btn-warning"><i className="fa-solid fa-arrow-left"></i>
-                      </button>
-                      <button
+                      </button> <button
                         onClick={() => handleOnDelete(item.id)}
                         className="btn btn-danger"><i className="fa-solid fa-trash"></i>
                       </button>
